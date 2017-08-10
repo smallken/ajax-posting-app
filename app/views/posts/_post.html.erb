@@ -1,0 +1,40 @@
+<div id="post-<%= post.id %>" class="panel panel-default">
+  <div class="panel-heading">
+    <%= post.user.display_name %>
+  </div>
+  <div class="panel-body">
+    <span id="post-thumbsup-<%= post.id %>" class="label label-success"><%= post.likes.count %> 👍</span>
+
+    <span class="average-score"><%= post.average_score %></span>
+    <div class="raty" data-score="<%= post.find_score(current_user).try(:score) || 0 %>" data-score-url="<%= rate_post_path(post) %>"></div>
+
+
+    <%= post.content %>
+
+    <div class="text-right">
+
+      <span id="post-like-<%= post.id %>">
+        <%= render :partial => "like", :locals => { :post => post } %>
+     </span>
+
+    <% if current_user && post.user == current_user %>
+      <p class="text-right">
+        <%= link_to "Delete", post_path(post), :class => "delete-post btn btn-danger" %>
+      </p>
+    <% end %>
+  </div>
+  </div>
+
+  <div class="panel-footer">
+    <% if current_user && current_user.is_admin? %>
+        <%= select_tag "category_id[#{post.id}]", options_for_select(Category.all.map{ |x| [x.name, x.id]}, post.category_id),
+                     :data => { :url => post_path(post) }, :prompt => "请选择分类", :class => "select_category" %>
+
+      <label>
+      <%= check_box_tag "mark_flag[#{post.id}]", 1, post.flag_at.present?,
+            :data => { :url => toggle_flag_post_path(post) }, :class => "toggle-flag" %> 标记为垃圾
+        <span id="post-flag-<%= post.id %>"><%= post.flag_at %></span>
+      </label>
+    <% end %>
+  </div>
+</div>
