@@ -10,6 +10,8 @@ resources :posts do
     member do
       post "like" => "posts#like"
       post "unlike" => "posts#unlike"
+      post "collect" => "posts#collect"
+      post "uncollect" => "posts#uncollect"
       post "toggle_flag" => "posts#toggle_flag"
       post "rate" => "posts#rate"
      end
