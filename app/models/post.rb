@@ -10,6 +10,7 @@ class Post < ApplicationRecord
     self.likes.where( :user_id => user.id ).first
   end
 
+  
   has_many :scores, :class_name => "PostScore"
 
    def find_score(user)

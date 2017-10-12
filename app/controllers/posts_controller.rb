@@ -44,6 +44,7 @@ class PostsController < ApplicationController
      render "like"
    end
 
+
    def toggle_flag
      @post = Post.find(params[:id])
 
